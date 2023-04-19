@@ -1,4 +1,6 @@
 from karlancer_scraper import KarlancerScraper
 
 scraper = KarlancerScraper()
-scraper.crawl()
+projects = scraper.crawl()
+for project in projects:
+    print(project.title)
