@@ -10,7 +10,7 @@ class Project(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(Text)
-    url: Mapped[Optional[str]]
+    url: Mapped[str] = mapped_column(Text, unique=True)
     description: Mapped[Optional[str]]
     posted_date: Mapped[Optional[int]]
     deadline: Mapped[Optional[int]]
