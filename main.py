@@ -6,13 +6,13 @@ from project import Base
 
 
 
-# scraper = KarlancerScraper()
-# projects = scraper.crawl()
+scraper = KarlancerScraper()
+projects = scraper.crawl()
 
 engine = create_engine("sqlite:///projects.db", echo=True)
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
-# storage = Storage()
-# storage.store_all(projects)
+storage = Storage()
+storage.store_all(engine ,projects)
 
 

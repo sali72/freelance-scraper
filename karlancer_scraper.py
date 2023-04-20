@@ -1,5 +1,5 @@
 import time
-from project import Project
+from project import Project, Tag
 import selenium.common
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -67,10 +67,11 @@ class KarlancerScraper :
             new_project.title = title_obj.text
             new_project.url = url_obj
             new_project.description = description_obj.text
-            new_project.price_fixed = price_obj.text
-            new_project.expected_time_limit = time_limit_obj.text
+            new_project.price_fixed = float(unidecode(price_obj.text.split(' ')[0].split('\n')[1].replace(',', '')))
+            new_project.expected_time_limit = int(unidecode(time_limit_obj.text.split(' ')[0].replace(',', '')))
             for tag in tags_obj:
-                new_project.tags.append(tag)
+                new_tag = Tag(name=tag.text)
+                new_project.tags.append(new_tag)
             projects.append(new_project)
         return projects
 
