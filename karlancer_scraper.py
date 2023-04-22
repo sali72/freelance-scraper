@@ -1,5 +1,5 @@
 import time
-from project import Project, Tag
+from storage import Project, Tag
 import selenium.common
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -13,13 +13,12 @@ import pandas as pd
 from scipy import stats
 
 class KarlancerScraper :
-    def __init__(self) -> None:
+    def __init__(self, search_word) -> None:
         options = webdriver.ChromeOptions()
         options.add_experimental_option("detach", True)
         # service = Service(executable_path="E:\Python projects\Chrome webriver\chromedriver.exe")
         service = Service(ChromeDriverManager().install())
         self.driver = webdriver.Chrome(service=service)
-        search_word = "tensorflow"
         url = f"https://www.karlancer.com/search?q={search_word}"
         self.driver.get(url=url)
         self.page_counter = 1                                                                            
