@@ -23,7 +23,7 @@ class Storage:
     def read_all(self, engine):
         with Session(engine) as session:
             projects = select(Project)
-        return session.scalars(projects).all()
+        return session.scalars(projects)
 
 
 class Base(DeclarativeBase):

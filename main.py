@@ -7,11 +7,17 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
 NavigationToolbar2Tk)
 from data_presenter import DataPresenter
+import matplotlib.pyplot as plt
 
 
 engine = create_engine("sqlite:///projects.db", echo=True)
-# Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine) # create the tables
 
+# storage = Storage()
+# projects = storage.read_all(engine)
+# dp = DataPresenter()
+# df = dp.scalars_to_df(projects)
+# print(df)
 
 
 # ---------------------------- Scrape data & save to db ------------------------------- #
@@ -26,20 +32,20 @@ def scrape():
 
 # ---------------------------- Draw the figure ------------------------------- #
 def plot():
-    # the figure that will contain the plot
-    fig = Figure(figsize = (5, 5), dpi = 100)
-    
-    # adding the subplot
-    plot1 = fig.add_subplot(111)
-
     # get data from database & draw figure
     storage = Storage()
     projects = storage.read_all(engine)
     dp = DataPresenter()
-    data = dp.draw_line_chart(projects, fig)
+    data = dp.generate_axis_data(projects)
 
     # plotting the graph
-    plot1.plot(data)
+    fig = plt.figure(figsize=(8,6))
+    plt.xticks(fontsize=14,rotation=50)
+    plt.yticks(fontsize=14)
+    plt.xlabel('Tag', fontsize=14)
+    plt.ylabel('Number of projects', fontsize=14)
+
+    plt.plot(data[0], data[1])
 
     # creating the Tkinter canvas
     # containing the Matplotlib figure
@@ -51,8 +57,11 @@ def plot():
     canvas.get_tk_widget().grid(column=1, row=3)
   
     # creating the Matplotlib toolbar
-    toolbar = NavigationToolbar2Tk(canvas,
-                                   window)
+    # toolbar = NavigationToolbar2Tk(canvas,window)
+    # added a frame so I can grid it, it also shows the toolbar, can get rid of it by removing grid
+    toolbarFrame = Frame(master=window)
+    toolbarFrame.grid(column=1,row=5)
+    toolbar = NavigationToolbar2Tk(canvas, toolbarFrame)
     toolbar.update()
   
     # placing the toolbar on the Tkinter window
