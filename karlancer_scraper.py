@@ -35,7 +35,7 @@ class KarlancerScraper :
             if len(self.driver.find_elements(By.ID, 'navigatePage_next')) == 0:
                 break
             # go to next page
-            next_button = self.self.driver.find_element(By.ID, 'navigatePage_next')
+            next_button = self.driver.find_element(By.ID, 'navigatePage_next')
             webdriver.ActionChains(self.driver).move_to_element(next_button).click(next_button).perform()
             # driver.execute_script("arguments[0].click();", next_button) # another way to click
             

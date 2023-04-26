@@ -13,17 +13,9 @@ import matplotlib.pyplot as plt
 engine = create_engine("sqlite:///projects.db", echo=True)
 # Base.metadata.create_all(engine) # create the tables
 
-# storage = Storage()
-# projects = storage.read_all(engine)
-# dp = DataPresenter()
-# df = dp.scalars_to_df(projects)
-# print(df)
-
-
 # ---------------------------- Scrape data & save to db ------------------------------- #
-def scrape():
+def scrape(search_word):
     # scrape
-    search_word = "tensorflow"
     scraper = KarlancerScraper(search_word)
     projects = scraper.crawl()
     # save
@@ -47,10 +39,8 @@ def plot():
 
     plt.plot(data[0], data[1])
 
-    # creating the Tkinter canvas
-    # containing the Matplotlib figure
-    canvas = FigureCanvasTkAgg(fig,
-                               master = window)  
+    # creating the Tkinter canvas containing the Matplotlib figure
+    canvas = FigureCanvasTkAgg(fig,master = window)  
     canvas.draw()
   
     # placing the canvas on the Tkinter window
@@ -72,7 +62,7 @@ def plot():
 
 window = Tk()
 window.title("Freelancer's buddy")
-window.config(padx=60, pady=60)
+window.config(padx=80, pady=80)
 
 # canvas = Canvas(width=200, height=200)
 # image = PhotoImage(file="logo.png")
@@ -80,23 +70,23 @@ window.config(padx=60, pady=60)
 # canvas.grid(column=1, row=0)
 
 # labels
-# label_1 = Label(text="Website: ", font=15)
-# label_1.grid(column=0, row=1)
+label_1 = Label(text="Keyword: ", font=15)
+label_1.grid(column=0, row=1)
 
 
 # entries
-# entry_site = Entry(width=32)
+entry_keyword = Entry(width=30)
+entry_keyword.grid(column=1, row=1)
 # entry_site.focus()
-# entry_site.grid(column=1, row=1)
 # entry_email = Entry(width=51)
 # entry_email.insert(0, string="YourEmailName@email.com")
 # entry_email.grid(column=1, row=2, columnspan=2)
 
 
 # buttons
-button_gen = Button(text="Scrape from karlancer", width=30, command=scrape)
-button_gen.grid(column=1, row=1)
-button_add = Button(text="Plot", width=30, command=plot)
+button_gen = Button(text="Scrape from karlancer", width=30, command= lambda: scrape(entry_keyword.get()))
+button_gen.grid(column=2, row=1, padx=20, pady=20)
+button_add = Button(text="Chart", width=30, command=plot)
 button_add.grid(column=1, row=2)
 
 
